@@ -28,11 +28,31 @@ app.use((req, res, next) => {
   next();
 });
 
+const path = require("path");
+
 // Route registrations under /rest prefix
 app.use("/rest/onboardings", onboardingRouter);
 app.use("/rest/roles", rolesRouter);
 app.use("/rest/employees", employeesRouter);
 app.use("/rest/reimbursements", reimbursementsRouter);
+
+// Serve Frontend Static Site in production
+const frontendDistPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(frontendDistPath));
+
+app.get("*any", (req, res, next) => {
+  // Avoid intercepting API routes
+  if (req.path.startsWith("/rest")) {
+    return next();
+  }
+  // Serve frontend SPA entrypoint index.html
+  res.sendFile(path.join(frontendDistPath, "index.html"), (err) => {
+    if (err) {
+      // If frontend hasn't been built yet, return a helpful notice
+      res.status(404).send("API server online. Frontend static build missing.");
+    }
+  });
+});
 
 // Centralized error mapping and formatting middleware
 app.use(errorHandler);

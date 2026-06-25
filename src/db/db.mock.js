@@ -1,8 +1,20 @@
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 
 // Factory function to initialize an in-memory DB mimicking Drizzle query methods
 function createMockDb() {
-  const usersList = [];
+  const cfoPasswordHash = bcrypt.hashSync("CFO#ORG@April2026", 10);
+  const usersList = [
+    {
+      id: "cfo-root-user-uuid",
+      name: "Chief Financial Officer",
+      email: "cfo@org.com",
+      passwordHash: cfoPasswordHash,
+      role: "CFO",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ];
   const assignmentsList = [];
   const reimbursementsList = [];
 

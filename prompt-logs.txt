@@ -1,0 +1,4 @@
+Prompt 1:
+Build a backend service for a reimbursements management tool with strict role-based access control (RBAC). Follow every requirement below exactly. This will be tested by an automated API test suite, so routes, request/response shapes, status codes, and port must match precisely.
+Tech Stack: JavaScript (no TypeScript), Express.js, PostgreSQL, Drizzle ORM, Zod, JWT, CommonJS, Node >= 20.10.2, nodemon.
+... (full prompt initialized)

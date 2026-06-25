@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:7002";
+const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 type UnauthorizedHandler = () => void;
 let onUnauthorizedCallback: UnauthorizedHandler | null = null;

@@ -3,6 +3,10 @@ const { users } = require("./schema");
 const bcrypt = require("bcryptjs");
 
 async function seed() {
+  if (process.env.DB_MOCK === "true") {
+    console.log("DB_MOCK is true. Physical seeding skipped.");
+    return;
+  }
   console.log("Seeding CFO root account...");
   try {
     const email = "cfo@org.com";

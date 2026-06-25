@@ -37,7 +37,7 @@ class OnboardingController {
       // Secure HTTP-only cookie configuration parameters
       const cookieOptions = {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: process.env.COOKIE_SAME_SITE || "strict",
         secure: process.env.NODE_ENV === "production",
         maxAge: 24 * 60 * 60 * 1000, // Expires in 24 hours
         path: "/",
@@ -60,7 +60,7 @@ class OnboardingController {
     try {
       res.clearCookie("token", {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: process.env.COOKIE_SAME_SITE || "strict",
         secure: process.env.NODE_ENV === "production",
         path: "/",
       });

@@ -16,8 +16,14 @@ const visibilityStrategies = {
     return employeesRepository.getAllEmployeesAndRMs();
   },
   CFO: async () => {
-    // CFO: everyone in the company database
-    return employeesRepository.getAllUsers();
+    // CFO: everyone in the company database + reporting assignments
+    const users = await employeesRepository.getAllUsers();
+    const { db } = require("../../db/db");
+    const assignments = await db.query.reportingAssignments.findMany();
+    return {
+      users,
+      assignments: assignments.map((a) => ({ empId: a.empId, rmId: a.rmId })),
+    };
   },
 };
 
@@ -29,10 +35,23 @@ class EmployeesService {
       throw new ForbiddenError("Forbidden: Access denied");
     }
 
-    const rawUsers = await strategy(userId);
+    const result = await strategy(userId);
     
+    // Check if result contains assignments (CFO custom payload)
+    if (result && !Array.isArray(result) && result.users) {
+      return {
+        users: result.users.map((u) => ({
+          userId: u.id,
+          name: u.name,
+          email: u.email,
+          role: u.role,
+        })),
+        assignments: result.assignments,
+      };
+    }
+
     // Format response exactly as specified: { userId, name, email, role }
-    return rawUsers.map((u) => ({
+    return result.map((u) => ({
       userId: u.id,
       name: u.name,
       email: u.email,

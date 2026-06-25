@@ -7,13 +7,24 @@ class EmployeesController {
     try {
       const { role, id } = req.user;
       
-      const usersList = await employeesService.getEmployeesList(role, id);
+      const result = await employeesService.getEmployeesList(role, id);
+
+      // Return both users and assignments if result is formatted for CFO org structure
+      if (result && !Array.isArray(result) && result.users) {
+        return res.status(200).json({
+          status: "success",
+          data: {
+            users: result.users,
+            assignments: result.assignments,
+          },
+        });
+      }
 
       // Return exactly the specified shape: { status: "success", data: { users: [...] } }
       return res.status(200).json({
         status: "success",
         data: {
-          users: usersList,
+          users: result,
         },
       });
     } catch (error) {

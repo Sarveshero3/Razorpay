@@ -51,6 +51,28 @@ A backend service built with Express.js, PostgreSQL, Drizzle ORM, Zod, and HTTP-
    npm run dev
    ```
 
+## Frontend Console Setup & Execution
+
+The system features a React + Vite + TypeScript web interface located in the `frontend` directory.
+
+1. **Install Frontend Dependencies**:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Start Frontend Dev Server**:
+   Launches the Vite client dashboard locally on port 3000:
+   ```bash
+   npm run dev
+   ```
+
+3. **Build Frontend Bundle**:
+   Compiles the frontend assets to the `frontend/dist/` directory:
+   ```bash
+   npm run build
+   ```
+
 ## Assumptions & Design Choices
 
 Detailed descriptions of spec clarifications can be found in [LESSONS.md](file:///c:/Users/Sarvesh/Desktop/3rd%20Year/Bootcamp/Razorpay/LESSONS.md) and [AGENTS.md](file:///c:/Users/Sarvesh/Desktop/3rd%20Year/Bootcamp/Razorpay/AGENTS.md).

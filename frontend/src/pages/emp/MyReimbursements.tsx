@@ -3,7 +3,7 @@ import { api } from "../../services/api";
 import { toast } from "../../components/Toast";
 import { StatusBadge } from "../../components/StatusBadge";
 import { TableSkeleton } from "../../components/Skeleton";
-import { Plus, HelpCircle, DollarSign, AlertCircle } from "lucide-react";
+import { Plus, HelpCircle, AlertCircle } from "lucide-react";
 
 interface Reimbursement {
   id: string;

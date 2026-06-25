@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { api } from "../../services/api";
 import { toast } from "../../components/Toast";
 import { TableSkeleton } from "../../components/Skeleton";
-import { Check, X, ShieldAlert, Users, FolderCheck, RefreshCw } from "lucide-react";
+import { Check, ShieldAlert, Users, FolderCheck } from "lucide-react";
 
 interface Reimbursement {
   id: string;
@@ -23,7 +24,20 @@ interface DirectoryUser {
 }
 
 export const PendingApprovals: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"claims" | "directory">("claims");
+  const location = useLocation();
+  const getInitialTab = () => {
+    if (location.pathname === "/directory") return "directory";
+    return "claims";
+  };
+  const [activeTab, setActiveTab] = useState<"claims" | "directory">(getInitialTab());
+
+  useEffect(() => {
+    if (location.pathname === "/directory") {
+      setActiveTab("directory");
+    } else if (location.pathname === "/pending-approvals") {
+      setActiveTab("claims");
+    }
+  }, [location.pathname]);
   const [claims, setClaims] = useState<Reimbursement[]>([]);
   const [directory, setDirectory] = useState<DirectoryUser[]>([]);
   const [loadingClaims, setLoadingClaims] = useState(true);

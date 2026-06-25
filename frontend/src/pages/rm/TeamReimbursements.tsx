@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { api } from "../../services/api";
 import { toast } from "../../components/Toast";
 import { TableSkeleton } from "../../components/Skeleton";
-import { Check, X, AlertTriangle, Users, FileSpreadsheet, RefreshCw } from "lucide-react";
+import { Check, AlertTriangle, Users, FileSpreadsheet } from "lucide-react";
 
 interface Reimbursement {
   id: string;
@@ -22,7 +23,20 @@ interface Employee {
 }
 
 export const TeamReimbursements: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"claims" | "team">("claims");
+  const location = useLocation();
+  const getInitialTab = () => {
+    if (location.pathname === "/my-team") return "team";
+    return "claims";
+  };
+  const [activeTab, setActiveTab] = useState<"claims" | "team">(getInitialTab());
+
+  useEffect(() => {
+    if (location.pathname === "/my-team") {
+      setActiveTab("team");
+    } else if (location.pathname === "/team-reimbursements") {
+      setActiveTab("claims");
+    }
+  }, [location.pathname]);
   const [claims, setClaims] = useState<Reimbursement[]>([]);
   const [team, setTeam] = useState<Employee[]>([]);
   const [loadingClaims, setLoadingClaims] = useState(true);

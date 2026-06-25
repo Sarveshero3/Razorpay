@@ -32,3 +32,18 @@ This log document captures decisions made during the construction of this backen
 ### 3. Reporting Assignments Validation
 - **Decision**: The reporting assignments table utilizes `empId` as a primary key.
 - **Why**: Enforces that an employee can only report to exactly one Reporting Manager (RM) at a time at the database level. Attempting to assign an employee who is already assigned to a different manager results in a `409 Conflict`.
+
+## Frontend Integration Decisions
+
+### 1. Tailwind CSS v4 Configuration & Build
+- **Decision**: Installed `@tailwindcss/postcss` and updated `postcss.config.js` to compile the CSS utilizing the `@config` directive in `index.css` to load the legacy `tailwind.config.js`.
+- **Why**: Tailwind CSS v4 deprecates direct imports under legacy `@tailwind base;` and requires `@import "tailwindcss";` along with the separate `@tailwindcss/postcss` plugin to build compatibility configurations cleanly within PostCSS.
+
+### 2. URL Path and Active Tab Syncing
+- **Decision**: Leveraged the `useLocation` hook in role dashboards to dynamically synchronize the `activeTab` view state (e.g. `claims`, `roles`, `org`, `team`) with the current browser URL (e.g. `/my-team`, `/directory`).
+- **Why**: Restores layout-level navigation behavior (like clicking the "My Team Directory" link in the sidebar) to instantly update tab segments within combined view dashboards, creating a seamless UX without route duplicates.
+
+### 3. Rigid Unused Import Compiler Checking
+- **Decision**: Cleaned up all unused icon imports across React components before running builds.
+- **Why**: TypeScript strictly throws error `TS6133` on unused imports when strict compilation configuration is active, causing production bundles to fail on Vite builds.
+

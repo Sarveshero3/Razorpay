@@ -16,7 +16,8 @@ app.use(cookieParser());
 
 // Custom CORS middleware to support cookie-based auth from frontend on port 3000
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:3000";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
